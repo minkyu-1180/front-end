@@ -1,49 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
-
 import { useState } from 'react';
-import { Routes, Route, Link, NavLink, useNavigate } from 'react-router-dom';
+import { Routes, Route, Switch } from 'react-router-dom';
 
-// import Login from './pages/LoginPage/Login.js';
-import LoginForm from './pages/LoginPage/LoginForm.js';
-import AfterLogin from './pages/AfterLoginPage/AfterLogin.js';
-import Navbar from './components/Navbar/Navbar.js';
-import dummyUsers from './dummyUsers.js';
+import Login from './pages/Login/Login';
+import Main from './pages/Main/Main';
+
+import dummyUsers from './dummyUsers';
 
 function App() {
-  let [users, setUsers] = useState(dummyUsers);
-  let [isLogin, setIsLogin] = useState(false);
-
-  function handleLoginSuccess () {
+  const [users, setUsers] = useState(dummyUsers);
+  const [isLogin, setIsLogin] = useState(false);
+  
+  function handleLogin() {
     setIsLogin(true);
-  };
-
+  }
   return (
     <div className="App">
-      <Navbar />
-      {/* <LoginForm 
-        onLogin={handleLoginSuccess}
-      /> */}
-
       <Routes>
-        <Route 
-          path="/"
+        <Route
+          path="/login"
           element={
-            <LoginForm 
-              onLogin={handleLoginSuccess}
+            <Login 
               users={users}
+              isLogin={isLogin}
+              onLogin={handleLogin}
             />
           }
         />
         <Route 
           path="/user/:userId"
           element={
-            <AfterLogin 
+            <Main 
               users={users}
             />
           }
         />
       </Routes>
+
     </div>
   );
 }

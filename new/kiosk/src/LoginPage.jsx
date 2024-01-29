@@ -32,18 +32,20 @@ function Login () {
     }
     return (
         <Container maxWidth="sm">
-          <div style={{ marginTop: '50px', textAlign: 'center' }}>
-            <Typography variant="h4">환영합니다.</Typography>
+          <div style={{ textAlign: 'center', marginTop: '20vh', marginBottom: '20vh' }}>
+            <Typography variant="h4">안녕하세요.</Typography>
             <Typography variant="h4">SSAFY 헬스장 입니다!</Typography>
           </div>
+          <div style={{ textAlign: 'center', marginTop: '20vh', marginBottom: '20vh' }}>
           <form>
             <TextField
-              label="전화번호"
-              variant="outlined"
-              fullWidth
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              style={{ marginTop: '20px' }}
+            
+            label="전화번호"
+            variant="outlined"
+            fullWidth
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            style={{ marginTop: '20px' }}
             />
             <TextField
               label="PIN 번호"
@@ -53,11 +55,12 @@ function Login () {
               value={pinNumber}
               onChange={(e) => setPinNumber(e.target.value)}
               style={{ marginTop: '20px' }}
-            />
+              />
             <Button variant="contained" color="primary" onClick={handleLogin} style={{ marginTop: '20px' }}>
               로그인
             </Button>
           </form>
+          </div>
         </Container>
       );
     }

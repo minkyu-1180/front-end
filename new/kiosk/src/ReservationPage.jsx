@@ -1,14 +1,27 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Typography  } from '@mui/material';
+import { AppBar, Toolbar, Box, Button, Typography  } from '@mui/material';
 import Store from './Store';
+
+function Header () {
+    return (
+      <AppBar position="static" sx={{ bgcolor: '#2196f3' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Typography variant="h6" component="div">
+            예약하기
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    );
+  };
+
 
 function Reservation() {
     const { machineDetail, routines, routineExercisePart, reservationWaitList, setReservationWaitList, reservationList, setReservationList } = Store();
     const navigate = useNavigate();
     // 추천 받은 루틴의 운동부위에 해당하는 루틴 운동들
     const filteredRoutines = routineExercisePart
-      ? routines.filter((routine) => routine.exercisePart === routineExercisePart)
+      ? routines.filter((routine) => routine.exercisePart == routineExercisePart)
       : [];
     useEffect(() => {
       console.log("추천 운동 부위 변경: ", routineExercisePart);
@@ -61,13 +74,14 @@ function Reservation() {
 
     return (
       <div>
-        <h1>예약하기</h1>
         <div>
-          {/* {routineExercisePart} */}
+          <Header />
+        </div>
+        <div>
           {routineExercisePart == null ? (
             <p>추천 루틴 없음</p>
           ) : (
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
               {filteredRoutines.map((routine) => (
                 <div key={routine.machineTypeId}>
                   <h4>운동 기구 : {routine.machineTypeId}</h4>
@@ -78,25 +92,26 @@ function Reservation() {
             </div>
           )}
         </div>
+        
         <Box
           display="flex"
           flexDirection="row" // 토글 버튼과 운동기구 목록을 가로로 배치
-        >
+          >
           <Box
             display="flex"
             flexDirection="column" // 토글 버튼을 세로로 배치
-          >
+            >
             {/* 토글 버튼들 */}
-            <Button variant={selectedPart === 0 ? 'contained' : 'outlined'} onClick={() => handleToggleClick(0)}>
+            <Button variant={selectedPart == '0' ? 'contained' : 'outlined'} onClick={() => handleToggleClick('0')}>
               유산소
             </Button>
-            <Button variant={selectedPart === 1 ? 'contained' : 'outlined'} onClick={() => handleToggleClick(1)}>
+            <Button variant={selectedPart == '1' ? 'contained' : 'outlined'} onClick={() => handleToggleClick('1')}>
               어깨
             </Button>
-            <Button variant={selectedPart === 2 ? 'contained' : 'outlined'} onClick={() => handleToggleClick(2)}>
+            <Button variant={selectedPart == '2' ? 'contained' : 'outlined'} onClick={() => handleToggleClick('2')}>
               가슴
             </Button>
-            <Button variant={selectedPart === 3 ? 'contained' : 'outlined'} onClick={() => handleToggleClick(3)}>
+            <Button variant={selectedPart == '3' ? 'contained' : 'outlined'} onClick={() => handleToggleClick('3')}>
               하체
             </Button>
           </Box>
@@ -115,6 +130,7 @@ function Reservation() {
             )}
           </div>
         </Box>
+
         <div>
           <h3>예약 목록</h3>
           {reservationWaitList.length > 0 ? (

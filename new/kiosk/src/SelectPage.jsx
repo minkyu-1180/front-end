@@ -10,15 +10,15 @@ const boxes = [
     { id: 'change', text: '변경하기' },
     { id: 'exit', text: '퇴실하기' },
 ]
-// const boxes1 = [
-//   { id: 'reservation', text: '예약하기' },
-//   { id: 'routine', text: '루틴 추천받기' },
+const boxes1 = [
+  { id: 'reservation', text: '예약하기' },
+  { id: 'routine', text: '루틴 추천받기' },
 
-// ];
-// const boxes2 = [
-//     { id: 'change', text: '예약 변경하기' },
-//     { id: 'exit', text: '퇴실하기' },
-// ]
+];
+const boxes2 = [
+    { id: 'change', text: '예약 변경하기' },
+    { id: 'exit', text: '퇴실하기' },
+]
 const Select = () => {
     const navigate = useNavigate();
     const { user, setRoutineExercisePart, setReservationWaitList } = Store();
@@ -35,32 +35,67 @@ const Select = () => {
 
  return (
     <Box m={4} textAlign="center">
-      <Typography variant="h4">안녕하세요, {user.userName}님!</Typography>
-      <Typography variant="h4">SSAFY 헬스장 입니다!</Typography>
-      <Typography variant="h5" style={{ marginTop: '20px' }}>원하는 항목을 선택해 주세요.</Typography>
-      <Box
-        display="flex"
-        flexDirection="row" // 행별로 정렬
-        alignItems="center"
-        justifyContent="center"
-        height="100vh" // 화면 전체 높이만큼 설정
+        <div style={{ textAlign: 'center', marginTop: '20vh'}}>
+            <Typography variant="h4">안녕하세요, {user.userName}님!</Typography>
+            <Typography variant="h4">SSAFY 헬스장 입니다!</Typography>
+            <Typography variant="h5" style={{ marginTop: '5vh' }}>원하는 항목을 선택해 주세요.</Typography>
+        </div>
+        <Box
+            display="flex"
+            flexDirection="column" // 행별로 정렬
+            alignItems="center"
+            justifyContent="center"
+            height="100vh" // 화면 전체 높이만큼 설정
         >
-        {boxes.map((box) => (
-            <Box
-                key={box.id}
-                p={2}
-                m={2}
-                bgcolor="#f0f0f0"
-                textAlign="center"
-                width="200px"
-                height="200px"
-                // flexBasis="calc(50% - 8px)" // 너비 조절
-                onClick={() => handleBoxClick(box.id)}
-                style={{ cursor: 'pointer' }}
-            >
-                <Typography variant="h6" noWrap>{box.text}</Typography>
-            </Box>
+        <div style={{
+            display:'flex',
+            flexDirection:"row",
+            justifyContent:"space-between",
+        }}
+        >
+            {boxes1.map((box) => (
+                <div key={box.id} style={{ flex: '1' }}>
+                    <Box
+                        p={2}
+                        m={2}
+                        bgcolor="#f0f0f0"
+                        textAlign="center"
+                        width="200px"
+                        height="200px"
+                        // flexBasis="calc(50% - 8px)" // 너비 조절
+                        onClick={() => handleBoxClick(box.id)}
+                        style={{ cursor: 'pointer' }}
+                        >
+                        <Typography variant="h6" noWrap>{box.text}</Typography>
+                    </Box>
+                </div>
+                ))}
+        </div>
+        <div style={{
+            display:'flex',
+            flexDirection:"row",
+            justifyContent:"space-between",
+        }}
+        >
+            {boxes2.map((box) => (
+                <div key={box.id} style={{ flex: '1'}}>
+                <Box
+                    
+                    p={2}
+                    m={2}
+                    bgcolor="#f0f0f0"
+                    textAlign="center"
+                    width="200px"
+                    height="200px"
+                    // flexBasis="calc(50% - 8px)" // 너비 조절
+                    onClick={() => handleBoxClick(box.id)}
+                    style={{ cursor: 'pointer' }}
+                    >
+                    <Typography variant="h6" noWrap>{box.text}</Typography>
+                </Box>
+            </div>
             ))}
+        </div>
         </Box>
     </Box>
   );

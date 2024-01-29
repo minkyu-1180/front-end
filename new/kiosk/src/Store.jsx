@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+// 
 const Store = create((set) => ({
     users: [
         {
@@ -13,6 +14,18 @@ const Store = create((set) => ({
             userGender: 0,
             birthYear: 1998,
             register_data: "2020-08-11",
+        },
+        {
+            userId: 1,
+            isAdmin: false,
+            loginId: "als1655",
+            loginPwd: "yj680408",
+            pinNumber: "1180",
+            userName: "김민서",
+            userPhone: "01074601655",
+            userGender: 0,
+            birthYear: 2002,
+            register_data: "2021-05-23",
         }
     ],
     // machineTypeId가 0일 경우 유산소로 하자
@@ -204,30 +217,142 @@ const Store = create((set) => ({
         },
     ],
 
-    // 로그인 상태 여부
-    // isLogin: false,
-    isLogin: localStorage.getItem('isLogin') === 'true',
-    setIsLogin: () => set({ isLogin: true }),
-
-    // 로그인 사용자 정보
-    // user: null,
-    user: localStorage.getItem('user')
-        ? JSON.parse(localStorage.getItem('user'))
-        : null,
-    setUser: (newUser) => {
-        set({ user: newUser });
-        localStorage.setItem('user', JSON.stringify(newUser));
+    
+    isLogin: false,
+    setIsLogin: () => {
+      set({ isLogin: true });
+      localStorage.setItem('isLogin', JSON.stringify(true));
     },
-
-    //선택한 운동 부위
-    // selectedExercisePart: null,
-    selectedExercisePart: localStorage.getItem('selectedExercisePart')
-        ? JSON.parse(localStorage.getItem('selectedExercisePart'))
-        : null,
-    setSelectedExercisePart: (part) => {
-        set({ selectedExercisePart: part });
-        localStorage.setItem('selectedExercisePart', JSON.stringify(part));
+  
+    // 로그인한 사용자
+    user: null,
+    setUser: (userInfo) => {
+      set({ user: userInfo });
+      localStorage.setItem('user', JSON.stringify(userInfo));
     },
-}))
+  
+    // 선택한 루틴 추천 운동부위
+    routineExercisePart: null,
+    setRoutineExercisePart: (part) => {
+      set({ routineExercisePart: part });
+      localStorage.setItem('routineExercisePart', JSON.stringify(part));
+    },
+  
+    // 예약 대기 목록
+    reservationWaitList: [],
+    setReservationWaitList: (waitList) => {
+      set({ reservationWaitList: waitList });
+      localStorage.setItem('reservationWaitList', JSON.stringify(waitList));
+    },
+  
+    // 예약 목록(실제 예약)
+    reservationList: [],
+    setReservationList: (list) => {
+      set({ reservationList: list });
+      localStorage.setItem('reservationList', JSON.stringify(list));
+    },
+  
+    // 유저 정보를 local storage에 저장하기
+    saveUserToLocalStorage: (userId, userData) => {
+      const userKey = `userId:${userId}`;
+      localStorage.setItem(userKey, JSON.stringify(userData));
+    },
+  
+    // local storage에서 유저 정보 가져오기
+    getUserFromLocalStorage: (userId) => {
+      const userKey = `userId:${userId}`;
+      const userData = localStorage.getItem(userKey);
+      return userData ? JSON.parse(userData) : null;
+    },
+  
+    // 사용자 정보 초기화 함수(로그인 시)
+    initializeUser: (userId) => {
+      const userInfo = set.getUserFromLocalStorage(userId);
+  
+      if (userInfo) {
+        set({
+          user: userInfo.user,
+          isLogin: userInfo.isLogin,
+          routineExercisePart: userInfo.routineExercisePart,
+          reservationWaitList: userInfo.reservationWaitList,
+          reservationList: userInfo.reservationList,
+        });
+      } else {
+        set({
+          user: null,
+          isLogin: false,
+          routineExercisePart: null,
+          reservationWaitList: [],
+          reservationList: [],
+        });
+      }
+    },
+  }));
+
+    // 로컬 스토리지에서 관리해야 하는 부분
+    // 로컬 스토리지에서 값을 받아오는 식으로 해야 할듯/
+    // 사용자별로 구분할 수 있는 값을(userId) 통해 사용자별 로컬 스토리지 구분
+    // 해당 사용자가 첫 로그인 시, userId값으로 로컬 스토리지 생성(user, isLogin만 활성화하고 나머지는 초기화)
+    // 해당 사용자가 로그인 경험이 있을 시, userId값으로 로컬 스토리지를 찾아오기
+    // 로그인 여부
+//     isLogin: false,
+//     setIsLogin: () => set({ isLogin: true }),
+
+//     // 로그인한 사용자
+//     user: null,
+//     setUser: (userInfo) => set({user: userInfo}),
+
+//     // 선택한 루틴 추천 운동부위
+//     routineExercisePart: null,
+//     setRoutineExercisePart: (part) => set({routineExercisePart: part}),
+
+//     // 예약 대기 목록
+//     reservationWaitList: [],
+//     setReservationWaitList: (waitList) => set({reservationWaitList: waitList}),
+    
+//     // 예약 목록(실제 예약)
+//     reservationList: [],
+//     setReservationList: (list) => set({reservationList: list}),
+    
+//     // 유저 정보를 local storage에 저장하기
+//     saveUserToLocalStorage: (userId, userData) => {
+//         const userKey = `userId:${userId}`;
+//         localStorage.setItem(userKey, JSON.stringify(userData));
+//     },
+
+//     // local storage에서 유저 정보 가져오기
+//     getUserFromLocalStorage: (userId) => {
+//         const userKey = `userId:${userId}`;
+//         const userData = localStorage.getItem(userKey);
+//         return userData ? JSON.parse(userData) : null;
+//     },
+
+//     // 사용자 정보 초기화 함수(로그인 시)
+//     initializeUser: (userId) => {
+//         // 해당 사용자 정보를 가져옴
+//         const userInfo = getUserFromLocalStorage(userId);
+
+//         if (userInfo) {
+//         // 기존 정보가 있다면 적용
+//         set({
+//             user: userInfo.user,
+//             isLogin: userInfo.isLogin,
+//             routineExercisePart: userInfo.routineExercisePart,
+//             reservationWaitList: userInfo.reservationWaitList,
+//             reservationList: userInfo.reservationList
+//         });
+//         } else {
+//         // 기존 정보가 없다면 초기 상태로 설정
+//         set({
+//             user: null,
+//             isLogin: false,
+//             routineExercisePart: null,
+//             reservationWaitList: [],
+//             reservationList: []
+//         });
+//         }
+//     },
+    
+// }));
 
 export default Store;

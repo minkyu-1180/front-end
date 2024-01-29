@@ -4,11 +4,13 @@ import Store from './Store';
 
 function Routine () {
     // 선택한 추천 받을 루틴의 운동 부위
-    const { selectedExercisePart, setSelectedExercisePart}  = Store();
+    const { routineExercisePart, setRoutineExercisePart}  = Store();
     const navigate = useNavigate();
 
+    // Store에 선택한 추천 루틴 운동부위 담기
     function handleClick (part) {
-        setSelectedExercisePart(part);
+        setRoutineExercisePart(part);
+        // localStorage.setItem('selectedExercisePart', JSON.stringify(part));
         navigate('/reservation');
     }
     return (
